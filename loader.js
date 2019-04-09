@@ -1,20 +1,30 @@
 let fs = require('fs');
 let globalConfig = require('./config');
 
-let pathMap = new Map();
-let files = fs.readdirSync(globalConfig.web_path);
+let routerMap = new Map();
+let routerFiles = fs.readdirSync(globalConfig.web_path);
 
-files.forEach(file=>{
-    let temp = require('./'+globalConfig.web_path+file);
-    if(temp.path){
+const addToMap = (path,map)=>file=>{
+    let temp = require('./'+globalConfig[path]+file);
+    if( temp instanceof Array){
+        map.push(...temp);
+    }else if(temp.path){
         temp.path.forEach((v,k)=>{
-            if(pathMap.get(k)){
-                throw new Error('url path 异常,url:'+k);
+            if(map.get(k)){
+                throw new Error(path+' 异常:'+k);
             }else{
-                pathMap.set(k,v);
+                map.set(k,v);
             }
         })
     }
-})
+}
 
-module.exports = pathMap;
+routerFiles.forEach(addToMap('web_path',routerMap));
+
+let filterArr = [];
+let filterFiles = fs.readdirSync(globalConfig.filter_path);
+
+filterFiles.forEach(addToMap('filter_path',filterArr));
+
+module.exports.router = routerMap;
+module.exports.filter = filterArr;
