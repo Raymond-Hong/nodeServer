@@ -25,7 +25,7 @@ const queryAllStudent = success => {
 }
 
 const queryStudentByClass = (classNum,success)=>{
-    let querySql = "select * from student where stu_num = ?;";
+    let querySql = "select * from student where class = ?;";
     const callBack = (err,res)=>{
         if(err){
             console.log(err);
@@ -37,7 +37,21 @@ const queryStudentByClass = (classNum,success)=>{
     startConnect(querySql,callBack,classNum);
 }
 
+const queryStudentByStuNum = (stuNum,success)=>{
+    let querySql = "select * from student where stu_num = ?;";
+    const callBack = (err,res)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log(res);
+            typeof success == 'function' ? success(res):'';
+        }
+    }
+    startConnect(querySql,callBack,stuNum);
+}
+
 module.exports = {
     queryAllStudent,
-    queryStudentByClass
+    queryStudentByClass,
+    queryStudentByStuNum
 }
