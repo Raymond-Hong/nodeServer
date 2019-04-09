@@ -9,11 +9,16 @@ const queryStudentByClass = (classNum,success)=>{
 }
 
 const queryStudentByStuNum = (stuNum,success)=>{
-    return studentDao.queryStudentByClass(stuNum,success);
+    return studentDao.queryStudentByStuNum(stuNum,success);
+}
+
+const insertStudent = (student,success)=>{
+    return studentDao.insertStudent(student,success);
 }
 
 module.exports = {
     queryAllStudent,
     queryStudentByClass,
-    queryStudentByStuNum
+    queryStudentByStuNum,
+    insertStudent
 }

@@ -1,5 +1,7 @@
-let studentService = require('../service/studentService');
-
+const studentService = require('../service/studentService');
+const generate = require('../utils/generate');
+const querystring = require('querystring');
+const getAesString = require('../utils/encryption');
 let path = new Map();
 
 const getData = (req,res)=>{
@@ -20,17 +22,35 @@ path.set('/getDataByClass',getDataByClass);
 
 const login = (req,res,params)=>{
     const success = data=>{
-        console.log(data);
-        // res.end(data.map(stu=>stu.name).toString());
         if(data && data.length && params.pwd==data[0].pwd){
             console.log('密码正确');
+            res.writeHead(302,{location:'/index.html','Set-Cookie':'id='+data[0].id});
+            res.end();
         }else{
-            console.log('密码错误');
-            res.writeHead(302,{'Content-Type':'text/plain;charset=utf-8'});
+            res.end('密码错误');
         }
     }
     studentService.queryStudentByStuNum(params.stu_num,success)
 }
 path.set('/login',login);
+
+const register = (req,res,params)=>{
+    const success = data=>{
+        res.writeHead(302,{location:'/index.html','Set-Cookie':'id='+data.insertId});
+        res.end();
+    }
+    let student = "";
+    req.on('data',chunk=>student+=chunk);
+    req.on('end',()=>{
+        student = querystring.parse(student);
+        if(!student){
+            throw new Error("student 不存在");
+        }
+        student.pwd = getAesString(student.pwd);
+        student.stu_num = generate(999999).padStart(6,'0');
+        studentService.insertStudent(student,success);
+    })
+}
+path.set('/register',register);
 
 module.exports.path = path;

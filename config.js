@@ -14,4 +14,7 @@ if(globalConf.static_file_type){
 } else {
     throw new Error('配置文件异常,缺少:static_file_type');
 }
+if(globalConf.access_path){
+    globalConf.access_path = globalConf.access_path.split(',');
+}
 module.exports = globalConf;
