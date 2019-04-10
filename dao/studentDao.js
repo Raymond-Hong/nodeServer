@@ -1,7 +1,7 @@
-let createConnection = require('./dbutil');
-let log = require('../log');
+const createConnection = require('./dbutil');
+const log = require('../log');
 const startConnect = (sql,callBack,param)=>{
-    let connection = createConnection();
+    const connection = createConnection();
     connection.connect();
     if(param){
         connection.query(sql,param,callBack);
@@ -10,45 +10,29 @@ const startConnect = (sql,callBack,param)=>{
     }
     connection.end();
 }
-
-const queryAllStudent = success => {
-    let querySql = "select * from student;";
-    const callBack = (err,res)=>{
-        if(err){
-            log(err);
-        }else{
-            typeof success == 'function' ? success(res):'';
-        }
+const callBack = success=>(err,res)=>{
+    if(err){
+        log(err);
     }
-    startConnect(querySql,callBack);
+    typeof success == 'function' ? success(res):'';
+}
+const queryAllStudent = success => {
+    const querySql = "select * from student;";
+    startConnect(querySql,callBack(success));
 }
 
 const queryStudentByClass = (classNum,success)=>{
-    let querySql = "select * from student where class = ?;";
-    const callBack = (err,res)=>{
-        if(err){
-            log(err);
-        }else{
-            typeof success == 'function' ? success(res):'';
-        }
-    }
-    startConnect(querySql,callBack,classNum);
+    const querySql = "select * from student where class = ?;";
+    startConnect(querySql,callBack(success),classNum);
 }
 
 const queryStudentByStuNum = (stuNum,success)=>{
-    let querySql = "select * from student where stu_num = ?;";
-    const callBack = (err,res)=>{
-        if(err){
-            log(err);
-        }else{
-            typeof success == 'function' ? success(res):'';
-        }
-    }
-    startConnect(querySql,callBack,stuNum|0);
+    const querySql = "select * from student where stu_num = ?;";
+    startConnect(querySql,callBack(success),stuNum);
 }
 
 const insertStudent = (student,success)=>{
-    let insertSql = 'insert into student (stu_num,name,age,class,pwd)values(?,?,?,?,?)';
+    const insertSql = 'insert into student (stu_num,name,age,class,pwd)values(?,?,?,?,?)';
     const fieldOrder = {
         stu_num:0,
         name:1,
@@ -62,14 +46,7 @@ const insertStudent = (student,success)=>{
             param[fieldOrder[prop]] = student[prop];
         }
     }
-    const callBack = (err,res)=>{
-        if(res){
-            typeof success == 'function' ? success(res):'';
-        }else{
-            log(err);
-        }
-    }
-    startConnect(insertSql,callBack,param);
+    startConnect(insertSql,callBack(success),param);
 }
 
 module.exports = {

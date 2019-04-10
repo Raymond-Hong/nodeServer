@@ -23,7 +23,6 @@ path.set('/getDataByClass',getDataByClass);
 const login = (req,res,params)=>{
     const success = data=>{
         if(data && data.length && params.pwd==data[0].pwd){
-            console.log('密码正确');
             res.writeHead(302,{location:'/index.html','Set-Cookie':'id='+data[0].id});
             res.end();
         }else{
@@ -36,7 +35,9 @@ path.set('/login',login);
 
 const register = (req,res,params)=>{
     const success = data=>{
-        res.writeHead(302,{location:'/index.html','Set-Cookie':'id='+data.insertId});
+        if(data){
+            res.writeHead(302,{location:'/index.html','Set-Cookie':'id='+data.insertId});
+        }
         res.end();
     }
     const checkStuNum = student=>data=>{
