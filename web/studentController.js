@@ -39,17 +39,29 @@ const register = (req,res,params)=>{
         res.writeHead(302,{location:'/index.html','Set-Cookie':'id='+data.insertId});
         res.end();
     }
-    let student = "";
-    req.on('data',chunk=>student+=chunk);
-    req.on('end',()=>{
+    const checkStuNum = student=>data=>{
+        if(data.length){
+            generateStuNum(student);
+        }else{
+            studentService.insertStudent(student,success);
+        }
+    }
+    const generateStuNum = student=>{
+        student.stu_num = generate(999999).padStart(6,'0');
+        studentService.queryStudentByStuNum(student.stu_num,checkStuNum(student));
+    }
+    const endToDo = ()=>{
         student = querystring.parse(student);
         if(!student){
             throw new Error("student 不存在");
         }
         student.pwd = getAesString(student.pwd);
-        student.stu_num = generate(999999).padStart(6,'0');
-        studentService.insertStudent(student,success);
-    })
+        generateStuNum(student);
+    }
+    
+    let student = "";
+    req.on('data',chunk=>student+=chunk);
+    req.on('end',endToDo);
 }
 path.set('/register',register);
 

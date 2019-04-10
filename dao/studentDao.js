@@ -38,7 +38,6 @@ const queryStudentByClass = (classNum,success)=>{
 const queryStudentByStuNum = (stuNum,success)=>{
     let querySql = "select * from student where stu_num = ?;";
     const callBack = (err,res)=>{
-        console.log(err,res,'query');
         if(err){
             log(err);
         }else{
