@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>首页</title>
     <link rel="stylesheet" href="index.css">
     <style>
     .wrapper{
@@ -35,66 +35,13 @@
         <li>这是第4条</li>
         <li>这是第5条</li>
     </div>
-
-    <!-- <script>
-        const generate = ()=>(Math.random()*90+10).toFixed(2);
-        let arr = [];
-        while(arr.length<10){
-            arr.push(generate());
-        }
-        arr.sort((a,b)=>a-b);
-        console.log('%c:red');
-
-        const humpName = name => name.replace(/_(\w)/g,function(a,b){
-            console.log(a);
-            return b.toUpperCase();
-        });
-        let str = 'the_first_name';
-        console.log(humpName(str));
-        str = 'ababaabb'
-        console.log(str.replace(/(\w)(\w)\2\1/g,'XXYY'));
-    </script> -->
-
     <script>
-        // const deepClone = obj => JSON.parse(JSON.stringify(obj));
-        // const getSingleDate = (function(){
-        //     var instance;
-        //     return function(){
-        //         return instance || (instance=new Date());
-        //     }
-        // })();
-
         const getSingleDate = (instance => () => instance || ( instance = new Date() ) )();
     </script>
-
-    <!-- <script>
-        const myTrim = str => str.replace(/^[\s]+|[\s]+$/g,'AA');
-        console.log(myTrim("avasdbdsb   dsba   "));
-    </script> -->
     <script>
         test.onclick = function(e){
             alert([...test.children].findIndex(val => val === e.target));
         }
     </script>
-    <!-- <script>
-        (function(window){
-            function fn(str){
-                this.str=str;
-            }
-            fn.prototype.format = function(){
-                var arg = arguments;
-                return this.str.replace(/{(\d+)}/g,function(a,b){
-                    return arg[b]||"";
-                })
-            }
-            window.fn = fn;
-        })(window);
-
-        (function(){
-            var t = new fn('<p><a href="{0}">{1}</a><span>{2}</span></p>');
-            console.log(t.format('http://alibaba.com','Alibaba','Welcome'));
-        })();
-    
-    </script> -->
 </body>
 </html>
