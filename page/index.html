@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>首页</title>
     <link rel="stylesheet" href="index.css">
     <style>
-    .wrapper{
+      .wrapper {
         border: 1px solid black;
         position: absolute;
         width: 1000px;
         height: 600px;
-    }
-    .content{
-        transform: translate(-50%,-50%);
+      }
+
+      .content {
+        transform: translate(-50%, -50%);
         position: absolute;
         left: 50%;
         top: 50%;
         background-color: antiquewhite;
         height: 100px;
         width: 100px;
-    }
+      }
     </style>
-</head>
-<body>
+  </head>
+
+  <body>
     <!-- <div class="wrapper">
         <div class="content"></div>
     </div> -->
     <div id="test">
-        <li>这是第1条</li>
-        <li>这是第2条</li>
-        <li>这是第3条</li>
-        <li>这是第4条</li>
-        <li>这是第5条</li>
+      <li>这是第1条</li>
+      <li>这是第2条</li>
+      <li>这是第3条</li>
+      <li>这是第4条</li>
+      <li>这是第5条</li>
     </div>
     <script>
-        const getSingleDate = (instance => () => instance || ( instance = new Date() ) )();
+      const getSingleDate = (instance => () => instance || (instance = new Date()))();
     </script>
     <script>
-        test.onclick = function(e){
-            alert([...test.children].findIndex(val => val === e.target));
-        }
+      test.onclick = function (e) {
+        alert([...test.children].findIndex(val => val === e.target));
+      }
     </script>
-</body>
+  </body>
+
 </html>
