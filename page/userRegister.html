@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>注册用户</title>
+  <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+  <script src="./ajax.js"></script>
+  <script src="./userRegister.js"></script>
+</head>
+<body>
+  <div id="user">
+    昵称:
+    <input type="text" v-model=user.nickName>
+    男:
+    <input type="radio" v-model=user.sex value="男">
+    女:
+    <input type="radio" v-model=user.sex value="女">
+    密码:
+    <input type="password" v-model=user.password>
+    <button @click=register>注册</button>
+    <div v-if=user.userNumber>
+      恭喜{{user.nickName}}!注册成功!!这是你的号码:{{user.userNumber}}
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#user',
+      data: {
+        user: {
+          nickName: '',
+          sex: '',
+          password: '',
+          userNumber: '',
+        }
+      },
+      methods:{
+        register() {
+          if (!this.user.nickName) {
+            alert('nickName is invalid');
+            return;
+          }
+          if (!this.user.sex) {
+            alert('please select sex');
+            return;
+          }
+          if (!this.user.password) {
+            alert('password is invalid');
+            return;
+          }
+          userRegister(this.user).then(res => {
+            this.user = Object.assign({},JSON.parse(res));
+          });
+        }
+      }
+    })
+  </script>
+</body>
+</html>

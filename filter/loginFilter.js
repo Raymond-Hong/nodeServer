@@ -7,8 +7,15 @@ const loginCheck = (req, res, pathName, params) => {
       params.pwd = getAesString(params.pwd);
     }
   } else {
-    if (!req.headers.cookie) {
-      res.writeHead(302, { location: '/login.html' });
+    let cookie = req.headers.cookie, url = '';
+    if (!cookie.id && !cookie.userId && pathName.endsWith('.html')) {
+      console.log(pathName);
+      if (pathName.startsWith('/user')) {
+        url = '/userLogin.html'
+      } else {
+        url = '/login.html'
+      }
+      res.writeHead(302, { location: url });
       res.end();
       return true;
     }

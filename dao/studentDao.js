@@ -1,21 +1,5 @@
-const createConnection = require('./dbutil');
 const log = require('../log');
-const startConnect = (sql, callBack, param) => {
-  const connection = createConnection();
-  connection.connect();
-  if (param) {
-    connection.query(sql, param, callBack);
-  } else {
-    connection.query(sql, callBack);
-  }
-  connection.end();
-}
-const callBack = success => (err, res) => {
-  if (err) {
-    log(err);
-  }
-  typeof success == 'function' ? success(res) : '';
-}
+const {startConnect, callBack} = require('./dbConnect');
 const queryAllStudent = success => {
   const querySql = "select * from student;";
   startConnect(querySql, callBack(success));

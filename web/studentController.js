@@ -26,10 +26,25 @@ const login = (req, res, params) => {
       res.writeHead(302, { location: '/index.html', 'Set-Cookie': 'id=' + data[0].id });
       res.end();
     } else {
-      res.end('密码错误');
+      res.end('帐号/密码错误');
+    }
+  };
+  params = "";
+  const endToDo = () => {
+    if (params) {
+      params = params.split('&').reduce((pre, val) => {
+        let cur = val.split('=');
+        pre[cur[0]] = cur[1];
+        return pre;
+      }, {});
+      params.pwd = getAesString(params.pwd);
+      studentService.queryStudentByStuNum(params.stu_num, success);
+    } else {
+      res.end('请求方式应为POST');
     }
   }
-  studentService.queryStudentByStuNum(params.stu_num, success)
+  req.on('data', chunk => params += chunk);
+  req.on('end', endToDo);
 }
 path.set('/login', login);
 
