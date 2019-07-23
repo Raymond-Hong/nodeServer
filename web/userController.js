@@ -36,11 +36,7 @@ const register = (req, res) => {
   const success = data => {
     if (data) {
       res.writeHead(200, { 'Set-Cookie': 'userId=' + data.id });
-      res.end(
-        '{"userNumber":"' + data.userNumber +
-        '","nickName":"' + data.nickName + 
-        '"}'
-      );
+      res.end(JSON.stringify(data));
     }
   }
   const checkUserNum = user => data => {
