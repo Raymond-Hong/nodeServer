@@ -1,7 +1,7 @@
 let fs = require('fs');
 let conf = fs.readFileSync('./server.conf').toString();
 let globalConf = {};
-let confs = conf.split('\r\n');
+let confs = conf.split('\n');
 
 confs.forEach(conf => {
   let tempConf = conf.split('=');
